@@ -254,7 +254,7 @@ func ({{.Variable}} *{{.CapitalName}}) UpdateTicker(p currency.Pair, assetType a
 		Close:   tick.Close,
 		Pair:    p,
 	}
-	err = ticker.ProcessTicker({{.Variable}}.Name, tickerPrice, assetType)
+	err = ticker.ProcessTicker(tickerPrice)
 	if err != nil {
 		return tickerPrice, err
 	}

@@ -148,7 +148,7 @@ Check to make sure that the command does not override the NTP client and encrypt
 go build && gocryptotrader.exe --config=config_example.json
 ```
 
-### Add the currency pair format structs in ftx_wrapper.go:
+### Add the currency pair format structs in ftx_wrapper.go (SetDefaults):
 
 #### Futures currency support:
 
@@ -255,45 +255,6 @@ var Exchanges = []string{
 	"poloniex",
 	"yobit",
     "zb",
-```
-
-#### Increment the default number of supported exchanges in [config/config_test.go](../config/config_test.go):
-```go
-func TestGetEnabledExchanges(t *testing.T) {
-	cfg := GetConfig()
-	err := cfg.LoadConfig(TestFile, true)
-	if err != nil {
-		t.Errorf(
-			"TestGetEnabledExchanges. LoadConfig Error: %s", err.Error(),
-		)
-	}
-
-	exchanges := cfg.GetEnabledExchanges()
-	if len(exchanges) != defaultEnabledExchanges { // modify the value of defaultEnabledExchanges at the top of the config_test.go file to match the total count of exchanges
-		t.Error(
-			"TestGetEnabledExchanges. Enabled exchanges value mismatch",
-		)
-	}
-
-	if !common.StringDataCompare(exchanges, "Bitfinex") {
-		t.Error(
-			"TestGetEnabledExchanges. Expected exchange Bitfinex not found",
-		)
-	}
-}
-```
-
-#### Increment the number of supported exchanges in [the gctscript exchange wrapper test file](../gctscript/wrappers/gct/exchange/exchange_test.go):
-```go
-func TestExchange_Exchanges(t *testing.T) {
-	t.Parallel()
-	x := exchangeTest.Exchanges(false)
-	y := len(x)
-	expected := 28 // modify this value to match the total count of exchanges
-	if y != expected {
-    	t.Fatalf("expected %v received %v", expected , y)
-	}
-}
 ```
 
 #### Setup and run the [documentation tool](../cmd/documentation):
