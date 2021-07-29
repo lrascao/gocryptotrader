@@ -19,6 +19,7 @@ import (
 	"github.com/thrasher-corp/gocryptotrader/exchanges/coinbasepro"
 	"github.com/thrasher-corp/gocryptotrader/exchanges/coinbene"
 	"github.com/thrasher-corp/gocryptotrader/exchanges/coinut"
+	"github.com/thrasher-corp/gocryptotrader/exchanges/ddsx"
 	"github.com/thrasher-corp/gocryptotrader/exchanges/exmo"
 	"github.com/thrasher-corp/gocryptotrader/exchanges/ftx"
 	"github.com/thrasher-corp/gocryptotrader/exchanges/gateio"
@@ -182,6 +183,8 @@ func (m *ExchangeManager) NewExchangeByName(name string) (exchange.IBotExchange,
 		exch = new(yobit.Yobit)
 	case "zb":
 		exch = new(zb.ZB)
+	case "ddsx":
+		exch = new(ddsx.DDSX)
 	default:
 		return nil, fmt.Errorf("%s, %w", nameLower, ErrExchangeNotFound)
 	}
