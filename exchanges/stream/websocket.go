@@ -139,6 +139,12 @@ func (w *Websocket) Setup(s *WebsocketSetup) error {
 		return err
 	}
 
+	if err := w.Fills.Setup(w.exchangeName,
+		s.FillsFeed,
+		w.DataHandler); err != nil {
+		return err
+	}
+
 	return nil
 }
 
