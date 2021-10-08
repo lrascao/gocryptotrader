@@ -17,6 +17,7 @@ import (
 	"github.com/thrasher-corp/gocryptotrader/currency"
 	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
 	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
+	"github.com/thrasher-corp/gocryptotrader/exchanges/fill"
 	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
 	"github.com/thrasher-corp/gocryptotrader/exchanges/orderbook"
 	"github.com/thrasher-corp/gocryptotrader/exchanges/stream"
@@ -382,7 +383,20 @@ func (f *FTX) wsHandleData(respRaw []byte) error {
 			if err != nil {
 				return err
 			}
-			f.Websocket.DataHandler <- resultData.FillsData
+
+			var fills []fill.Data
+			fills = append(fills, fill.Data{
+				Timestamp:    resultData.FillsData.Time,
+				Exchange:     f.Name,
+				AssetType:    a,
+				CurrencyPair: p,
+				OrderID:      strconv.FormatInt(resultData.FillsData.OrderID, 10),
+				TradeID:      strconv.FormatInt(resultData.FillsData.TradeID, 10),
+				Price:        resultData.FillsData.Price,
+				Amount:       resultData.FillsData.Size,
+			})
+
+			f.Websocket.DataHandler <- fills
 		default:
 			f.Websocket.DataHandler <- stream.UnhandledMessageWarning{Message: f.Name + stream.UnhandledMessage + string(respRaw)}
 		}

@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
+	"github.com/thrasher-corp/gocryptotrader/exchanges/fill"
 	"github.com/thrasher-corp/gocryptotrader/exchanges/protocol"
 	"github.com/thrasher-corp/gocryptotrader/exchanges/stream/buffer"
 	"github.com/thrasher-corp/gocryptotrader/exchanges/trade"
@@ -75,6 +76,9 @@ type Websocket struct {
 	// Trade is a notifier of occurring trades
 	Trade trade.Trade
 
+	// Fills is a notifier of occurring fills
+	Fills fill.Fills
+
 	// trafficAlert monitors if there is a halt in traffic throughput
 	TrafficAlert chan struct{}
 	// ReadMessageErrors will received all errors from ws.ReadMessage() and
@@ -112,6 +116,8 @@ type WebsocketSetup struct {
 	// Trade data config values
 	SaveTradeData bool
 	TradeFeed     bool
+	// Fill data config values
+	FillsFeed bool
 }
 
 // WebsocketConnection contains all the data needed to send a message to a WS
